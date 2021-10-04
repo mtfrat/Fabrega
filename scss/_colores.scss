@@ -1,0 +1,97 @@
+$colorPrincipal: rgba(67, 12, 85, 1);
+$colorSecundario: rgba(54, 22, 157, 1);
+$fondoDark: rgba(17, 17, 17, 1);
+$cardsDark: rgba(34, 34, 34, 1);
+$letraDark: rgba(255, 255, 255, 1);
+
+$estiloColores: (
+  violeta: $colorPrincipal,
+  azul: $colorSecundario,
+  fondo: $fondoDark,
+  cards: $cardsDark,
+  blanco: $letraDark,
+);
+
+footer {
+  background: rgb(54, 22, 157);
+  background: linear-gradient(
+    180deg,
+    rgba(54, 22, 157, 1) 0%,
+    rgba(154, 15, 168, 1) 80%,
+    rgba(67, 12, 85, 1) 100%
+  );
+  a {
+    color: map-get($estiloColores, blanco);
+    &:hover {
+      text-decoration: none;
+      color: map-get($estiloColores, azul);
+    }
+  }
+}
+
+.bg-primary {
+  background-color: map-get($estiloColores, violeta) !important;
+}
+
+.navbar-light {
+  .navbar-nav {
+    .nav-link {
+      color: map-get($estiloColores, blanco);
+    }
+  }
+  .navbar-brand {
+    color: map-get($estiloColores, blanco);
+  }
+  a {
+    &:hover {
+      color: white !important;
+      transform: scale(1.1, 1.1);
+    }
+  }
+}
+
+.divOpiniones {
+  background-color: map-get($estiloColores, azul);
+  border-radius: 2px;
+  color: map-get($estiloColores, blanco);
+}
+
+.switch {
+  background-color: rgba(154, 15, 168, 1);
+  color: map-get($estiloColores, blanco);
+}
+
+body {
+  transition: 0.3s ease all;
+  &.dark {
+    background-color: map-get($estiloColores, fondo);
+    color: map-get($estiloColores, blanco);
+    .card {
+      background-color: #222222;
+    }
+    .formularioContacto {
+      .sucursales {
+        background-color: #222222;
+        border-radius: 10px;
+      }
+    }
+    .ventanaEmergente {
+      color: map-get($estiloColores, blanco);
+      background-color: map-get($estiloColores, cards);
+    }
+  }
+}
+
+.ventanaEmergente {
+  background-color: #ecdca4;
+  color: #111111;
+}
+
+.ventanaCompraFinalizada {
+  background-color: map-get($estiloColores, violeta);
+  color: #ffffff;
+}
+
+.divDatos {
+  color: red;
+}
