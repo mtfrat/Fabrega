@@ -53,57 +53,69 @@
         </div>
     </header>
 
+    <div class="ventanaEmergente" id="ventanaEmergente">
+        <a id="cerrarVentana">X</a>
+        <h5>Resumen de compra:</h5>
+    </div>
+
+    <div class="ventanaCompraFinalizada" id="ventanaCompraFinalizada">
+        <a id="cerrarVentanaCompraFinalizada">X</a>
+        <h5>Compra relizada con éxito!</h5>
+    </div>
+
+
     <!-- contenido -->
-    <div class="container">
-        <h1 class="tituloProductos centrarTexto">Realiza tu compra:</h1>
-        <div class="row" id="items">
+    <div class="container containerProductos">
+        <h1 class="tituloProductos">Realiza tu compra:</h1>
+        <div class="row" id="compra">
+            <template id="productoCompra">
+                <div class="col-lg-6 col-md-6 col-xs-12 imagenProducto">
+                    <img>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-12 contenidoProductos">
+                    <h2 id="producto">Producto</h2>
+                    <div class="mostrarPrecio">Precio: <p id="precio">Precio</p></div>
+                    <ul>
+                        <li>
+                            Color:
+                            <select name="Color" id="elegirColor">
+                                <option value=""></option>
+                                <option value="Azul">Azul</option>
+                                <option value="Blanco">Blanco</option>
+                                <option value="Negro">Negro</option>
+                                <option value="Verde">Verde</option>
+                            </select>
+                        </li>
+                        <li>
+                            Cantidad:
+                            <select name="Unidades" id="elegirUnidades">
+                                <option value=""></option>
+                                <option value="1">1 unidad</option>
+                                <option value="2">2 unidades</option>
+                                <option value="3">3 unidades</option>
+                                <option value="4">4 unidades</option>
+                            </select>
+                        </li>
+                        <li>
+                            Cuotas:
+                            <select name="Cuotas" id="elegirCuotas">
+                                <option value=""></option>
+                                <option value="1">1</option>
+                                <option value="3">3</option>
+                                <option value="6">6</option>
+                                <option value="12">12</option>
+                            </select>
+                        </li>
+                    </ul>
+                    <a href="#" id="verCompra"><input type="submit" value="Comprar"></a>
+                    <!-- <a href="#"><input type="submit" value="Agregar a carrito"></a> -->
+                </div>
+            </template>
         </div>
     </div>
 
-    <template>
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <img>
-        </div>
-        <div class="col-lg-6 col-md-6 col-xs-12">
-            <h2>Campera audi</h2>
-            <div>Precio: $10.000</div>
-            <ul>
-                <li>
-                    Color:
-                    <select name="Color">
-                        <option value=""></option>
-                        <option value="Blue">Azul</option>
-                        <option value="White">Blanco</option>
-                        <option value="Black">Negro</option>
-                        <option value="Green">Verde</option>
-                    </select>
-                </li>
-                <li>
-                    Cantidad:
-                    <select name="Unidades">
-                        <option value=""></option>
-                        <option value="1">1 unidad</option>
-                        <option value="2">2 unidades</option>
-                        <option value="3">3 unidades</option>
-                        <option value="4">4 unidades</option>
-                    </select>
-                </li>
-                <li>
-                    Cuotas:
-                    <select name="Cuotas">
-                        <option value=""></option>
-                        <option value="1">1</option>
-                        <option value="3">3</option>
-                        <option value="6">6</option>
-                        <option value="12">12</option>
-                    </select>
-                </li>
-            </ul>
-            <a href="#"><input type="submit" value="Comprar"></a>
-            <a href="#"><input type="submit" value="Agregar a carrito"></a>
-        </div>
-    </template>
 
+    <a href="#" id="verCompra"><input type="submit" value="Comprar"></a>
 
     <!-- footer -->
     <footer class="container-fluid">
@@ -134,6 +146,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="../js/main.js"></script>
-    <script src="../js/compra.js"></script>
+    <script src="../js/prueba.js"></script>
 </body>
 </html>

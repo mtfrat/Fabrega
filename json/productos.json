@@ -1,44 +1,50 @@
 [
     {
-      "precio": 10000,
+      "precio": "$10.000",
       "id": 1,
       "producto": "Televisor",
       "src": "../assets/img/tele1.jpg",
-      "href": "../views/productos/producto1.html"
+      "href": "compra.html",
+      "class": "botonCompra"
     },
     {
-      "precio": 50000,
+      "precio": "$50.000",
       "id": 2,
       "producto": "Computadora",
       "src": "../assets/img/compu1.jpg",
-      "href": "../views/productos/producto2.html"
+      "href": "compra.html",
+      "class": "botonCompra"
     },
     {
-      "precio": 70000,
+      "precio": "$70.000",
       "id": 3,
       "producto": "Aire acondicionado",
       "src": "../assets/img/aire1.jpg",
-      "href": "../views/productos/producto3.html"
+      "href": "compra.html",
+      "class": "botonCompra"
     },
     {
-      "precio": 8000,
+      "precio": "$8.000",
       "id": 4,
       "producto": "Licuadora",
       "src": "../assets/img/licuadora.jpg",
-      "href": "../views/productos/producto4.html"
+      "href": "compra.html",
+      "class": "botonCompra"
     },
     {
-      "precio": 4000,
+      "precio": "$4.000",
       "id": 5,
       "producto": "Tostadora",
       "src": "../assets/img/tostadora.jpg",
-      "href": "../views/productos/producto5.html"
+      "href": "compra.html",
+      "class": "botonCompra"
     },
     {
-      "precio": 30000,
+      "precio": "$30.000",
       "id": 6,
       "producto": "Microondas",
       "src": "../assets/img/microondas.jpg",
-      "href": "../views/productos/producto6.html"
+      "href": "compra.html",
+      "class": "botonCompra"
     }
   ]

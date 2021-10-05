@@ -9,16 +9,48 @@ let precio
 let producto
 let contenidoProductos
 let divDatos
+const compra = document.getElementById('compra')
+const productoCompra = document.getElementById('productoCompra').content
+const fragment = document.createDocumentFragment()
+
+let botonPresionado = localStorage.getItem("ID")
+
+// Evento donde se espera que se cargue completamente el HTML
+document.addEventListener('DOMContentLoaded', e => { fetchData() })
+
+// Utilizo fetch para mostar los productos que se encuentran en el json
+const fetchData = async () => {
+    const res = await fetch('../json/productos.json')
+    const data = await res.json()
+    mostrarProducto(data)
+}
+
+
+// Muestro los datos del producto a comprar
+const mostrarProducto = data => {
+    data.forEach(item => {
+        if(item.id == botonPresionado){
+            productoCompra.querySelector('h2').textContent = item.producto
+            productoCompra.querySelector('p').textContent = item.precio
+            productoCompra.querySelector('img').src = item.src
+            const clone = productoCompra.cloneNode(true)
+            fragment.appendChild(clone)
+        }
+    })
+    compra.appendChild(fragment)
+}
+
 
 $(() => {
     // Evento que recibe cuando se da click en el boton Comprar
     $("#verCompra").click(()=> {
+        console.log("entre");
         // Obtengo datos de la compra
         elegirColor = document.getElementById("elegirColor").value
         elegirUnidades = document.getElementById("elegirUnidades").value
         elegirCuotas = document.getElementById("elegirCuotas").value
-        let precio = document.getElementById("precio").textContent
-        let producto = document.getElementById("producto").textContent
+        precio = document.getElementById("precio").textContent
+        producto = document.getElementById("producto").textContent
         if(elegirColor !== "" && elegirCuotas !== "" && elegirUnidades !== ""){
 
             $(".divDatos").remove()
@@ -60,6 +92,7 @@ $(() => {
     // Evento que espera click en la x
     $("#cerrarVentanaCompraFinalizada").click(()=> {
         document.getElementById("ventanaCompraFinalizada").style.display = "none"
+        document.getElementById("ventanaEmergente").style.display = "none"
     })
     // Evento que espera click en la x
     $("#cerrarVentana").click(()=> {
