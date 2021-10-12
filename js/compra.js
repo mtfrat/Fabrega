@@ -82,7 +82,7 @@ $(() => {
                 divDatos = document.createElement("div")
                 divDatos.className = 'divDatos'
                 divDatos.innerHTML +=     `
-                <p>Por favor, completá todos los datos!</p>
+                <p>Por favor, completá todos los campos!</p>
                 `
                 contenidoProductos.appendChild(divDatos)
                 verificadorError = 1
