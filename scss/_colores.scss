@@ -79,6 +79,9 @@ body {
       color: map-get($estiloColores, blanco);
       background-color: map-get($estiloColores, cards);
     }
+    .ventanaCarro {
+      background-color: map-get($estiloColores, cards);
+    }
   }
 }
 

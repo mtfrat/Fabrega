@@ -268,3 +268,41 @@ button {
   left: 59%;
   bottom: 180px;
 }
+
+.ventanaCarro {
+  z-index: 998;
+  width: 40%;
+  text-align: center;
+  padding: 33px;
+  min-height: 300px;
+  position: absolute;
+  left: 30%;
+  top: 25%;
+  display: none;
+  p {
+    text-align: left;
+  }
+  a {
+    position: relative;
+    bottom: 10px;
+    left: 230px;
+  }
+  h5 {
+    margin-bottom: 20px;
+  }
+}
+
+.cantidadCarrito {
+  display: flex;
+  height: 50%;
+  input {
+    width: 20px;
+    position: relative;
+    top: 10px;
+    margin: 1px;
+  }
+}
+
+.vaciarCarrito {
+  width: 30%;
+}

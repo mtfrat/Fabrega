@@ -51,7 +51,7 @@ function guardarId(){
 items.addEventListener("click",agregarAlCarrito)
 
 // Creamos un arrray vacio en caso de que no haya nada cargado
-const carrito = JSON.parse(localStorage.getItem("carrito"))|| []
+let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
 
 // Agrego event listener
 
@@ -77,12 +77,11 @@ function obtenerDatos(producto) {
         nombre: producto.querySelector("h5").textContent,
         precio: producto.querySelector("p").textContent,
         imagen: producto.querySelector("img").src,
+        id: producto.querySelector(".comprar").id,
     }
-    console.log(datosProducto);
 
     // Pusheamos el carrito
     carrito.push(datosProducto)
-    console.log(carrito)
     guardarLocalStorage()
 }
 
@@ -94,22 +93,28 @@ function guardarLocalStorage(){
 
 // Se crea el carrito
 
-const contenedorCarrito = document.querySelector("#carrito")
-const mostrarCarrito = document.querySelector("#mostrar-carrito")
-let acumuladorCarrito = 0
+const contenedorCarrito = document.querySelector("#carrito") //Div donde voy a agregar los productos
+const mostrarCarrito = document.querySelector("#mostrar-carrito") //Boton para mostrar el carrito
 
 if(mostrarCarrito){
     mostrarCarrito.addEventListener("click",muestroCarrito)
 }
 
 function muestroCarrito (){
-    if(!localStorage.getItem("carrito") && acumuladorCarrito ==0){
+    if(!localStorage.getItem("carrito")){
+        // Para mostrar mensaje solo una vez
+        limpiarCarritoVacio()
         const carroVacio = document.createElement("p")
         carroVacio.innerHTML = "Carrito vacio"
         contenedorCarrito.appendChild(carroVacio)
-        acumuladorCarrito = 1
     }else{
         renderizarCarrito()
+    }
+}
+
+function limpiarCarritoVacio(){
+    while (contenedorCarrito.firstChild){
+        contenedorCarrito.removeChild(contenedorCarrito.lastElementChild)
     }
 }
 
@@ -117,25 +122,34 @@ function renderizarCarrito(){
     // Para mostrar carrito solo una vez
     limpiarCarrito()
     carrito.forEach(producto => {
-        const row = document.createElement("div")
-        row.classList.add("row")
+        const divCarro = document.createElement("div")
+        divCarro.classList.add("row")
+        divCarro.classList.add("productoCarrito")
 
-        row.innerHTML += `
+        divCarro.innerHTML += `
             <div class="col-lg-4">
-                <img class="w-50" src=${producto.imagen}>
+                <img src=${producto.imagen}>
             </div>
             <div class="col-lg-6">
                 <h2>${producto.nombre}</h2>
                 <h3>${producto.precio}</h3>
             </div>
-            <div class="col-lg-2">
-                <button>+</button>
+            <div class="col-lg-2 cantidadCarrito">
                 <button>-</button>
+                <input type="text" id="${producto.id}" name="producto">
+                <button>+</button>
             </div>
-            <hr/>
         `
-        contenedorCarrito.appendChild(row)
+        contenedorCarrito.appendChild(divCarro)
     })
+        // const botonVaciarCarrito = document.querySelector(".productoCarrito")
+        // botonVaciarCarrito.innerHTML += `
+        //     <div class="col-lg-2">
+        //         <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito">Vaciar carrito</button>
+        //     </div>
+        // `
+
+        // contenedorCarrito.appendChild(botonVaciarCarrito)
 }
 
 function limpiarCarrito(){
@@ -143,3 +157,31 @@ function limpiarCarrito(){
         contenedorCarrito.removeChild(contenedorCarrito.firstChild)
     }
 }
+
+// Hasta aca funciona
+
+const vacioCarrito = document.getElementById("vaciarCarrito")
+
+console.log(vacioCarrito);
+
+if(vacioCarrito){
+    console.log("entre")
+    vacioCarrito.addEventListener("click",()=>{
+        carrito = {}
+        renderizarCarrito()
+    })
+}
+
+// Si el usuario quiere vaciar completamente el carrito, elimino todo su contenido
+
+$(() => {
+    // Evento que recibe cuando se da click en el boton mostrar carrito
+    $("#mostrar-carrito").click(()=> {
+        document.getElementById("ventanaCarro").style.display = "block"
+    })
+
+    // Evento que espera click en la x
+    $("#cerrarVentanaCarro").click(()=> {
+        document.getElementById("ventanaCarro").style.display = "none"
+    })
+})

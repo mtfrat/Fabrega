@@ -44,7 +44,6 @@ const mostrarProducto = data => {
 $(() => {
     // Evento que recibe cuando se da click en el boton Comprar
     $("#verCompra").click(()=> {
-        console.log("entre");
         // Obtengo datos de la compra
         elegirColor = document.getElementById("elegirColor").value
         elegirUnidades = document.getElementById("elegirUnidades").value
