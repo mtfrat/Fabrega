@@ -276,8 +276,8 @@ button {
   padding: 33px;
   min-height: 300px;
   position: absolute;
-  left: 30%;
-  top: 25%;
+  left: 50%;
+  top: 20%;
   display: none;
   p {
     text-align: left;
@@ -304,5 +304,9 @@ button {
 }
 
 .vaciarCarrito {
-  width: 30%;
+  width: 300%;
+}
+
+.mostrar-carrito {
+  border-radius: 50px;
 }

@@ -93,6 +93,9 @@ h1 {
 .ventanaCarro h5 {
   font-size: 40px; }
 
+.ventanaCarro .mensajeCarro {
+  font-size: 20px; }
+
 li {
   list-style-type: none;
   display: inline; }
@@ -327,8 +330,8 @@ button {
   padding: 33px;
   min-height: 300px;
   position: absolute;
-  left: 30%;
-  top: 25%;
+  left: 50%;
+  top: 20%;
   display: none; }
   .ventanaCarro p {
     text-align: left; }
@@ -349,7 +352,10 @@ button {
     margin: 1px; }
 
 .vaciarCarrito {
-  width: 30%; }
+  width: 300%; }
+
+.mostrar-carrito {
+  border-radius: 50px; }
 
 .card-body img {
   width: 100%; }

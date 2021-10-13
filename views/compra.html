@@ -53,6 +53,18 @@
         </div>
     </header>
 
+    <!-- Boton carrito -->
+    <div class="container">
+        <button id="mostrar-carrito" class="btn btn-dark mostrar-carrito float-right"><i class="fas fa-shopping-cart"></i></button>
+    </div>
+
+    <!-- Carrito de compras -->
+    <div class="ventanaCarro" id="ventanaCarro">
+        <a id="cerrarVentanaCarro">X</a>
+        <h5 id="tituloCarro">Carrito de compras:</h5>
+        <div id="carrito"></div>
+    </div>
+
     <div class="ventanaEmergente" id="ventanaEmergente">
         <a id="cerrarVentana">X</a>
         <h5>Resumen de compra:</h5>
@@ -114,7 +126,7 @@
 
     <div class="botones">
         <a href="#" id="verCompra"><input type="submit" value="Comprar"></a>
-        <a href="#"><input type="submit" value="Agregar a carrito"></a>
+        <input type="submit" value="Agregar a carrito" class="agregar-carrito" id="agregar-carrito">
     </div>
 
     <!-- footer -->

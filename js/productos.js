@@ -53,13 +53,14 @@ items.addEventListener("click",agregarAlCarrito)
 // Creamos un arrray vacio en caso de que no haya nada cargado
 let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
 
-// Agrego event listener
+const ventanaAbierta = document.querySelector("#ventanaCarro") //Boton para mostrar el carrito
 
 
 // Se recibe el evento de click con sus datos
 function agregarAlCarrito(e){
-
-
+    if(document.getElementById("ventanaCarro").style.display == "block"){
+        renderizarCarrito()
+    }
     // Se localiza el click
     if(e.target.classList.contains("agregar-carrito")){
         // Guardo dentro de productoSeleccionado la tarjeta
@@ -74,7 +75,7 @@ function agregarAlCarrito(e){
 function obtenerDatos(producto) {
     // Construyo el objeto para guardarlo en array
     let datosProducto = {
-        nombre: producto.querySelector("h5").textContent,
+        articulo: producto.querySelector("h5").textContent,
         precio: producto.querySelector("p").textContent,
         imagen: producto.querySelector("img").src,
         id: producto.querySelector(".comprar").id,
@@ -114,13 +115,16 @@ function muestroCarrito (){
 
 function limpiarCarritoVacio(){
     while (contenedorCarrito.firstChild){
-        contenedorCarrito.removeChild(contenedorCarrito.lastElementChild)
+        contenedorCarrito.removeChild(contenedorCarrito.firstChild)
     }
 }
 
 function renderizarCarrito(){
     // Para mostrar carrito solo una vez
-    limpiarCarrito()
+    console.log(carrito);
+    if(carrito.length !== 0){
+        limpiarCarrito()
+    }
     carrito.forEach(producto => {
         const divCarro = document.createElement("div")
         divCarro.classList.add("row")
@@ -131,7 +135,7 @@ function renderizarCarrito(){
                 <img src=${producto.imagen}>
             </div>
             <div class="col-lg-6">
-                <h2>${producto.nombre}</h2>
+                <h2>${producto.articulo}</h2>
                 <h3>${producto.precio}</h3>
             </div>
             <div class="col-lg-2 cantidadCarrito">
@@ -142,14 +146,27 @@ function renderizarCarrito(){
         `
         contenedorCarrito.appendChild(divCarro)
     })
-        // const botonVaciarCarrito = document.querySelector(".productoCarrito")
-        // botonVaciarCarrito.innerHTML += `
-        //     <div class="col-lg-2">
-        //         <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito">Vaciar carrito</button>
-        //     </div>
-        // `
 
-        // contenedorCarrito.appendChild(botonVaciarCarrito)
+    // Agrego boton para vaciar carrito
+
+    contenedorCarrito.innerHTML += `
+        <div class="col-lg-2">
+            <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito">Vaciar carrito</button>
+        </div>
+    `
+
+    // Si el usuario quiere vaciar completamente el carrito, elimino todo su contenido
+
+    const vacioCarrito = document.getElementById("vaciarCarrito")
+
+    if(vacioCarrito){
+        vacioCarrito.addEventListener("click",()=>{
+            carrito.splice(0, carrito.length)
+            localStorage.removeItem("carrito")
+            muestroCarrito ()
+            console.log(carrito);
+        })
+    }
 }
 
 function limpiarCarrito(){
@@ -158,21 +175,7 @@ function limpiarCarrito(){
     }
 }
 
-// Hasta aca funciona
 
-const vacioCarrito = document.getElementById("vaciarCarrito")
-
-console.log(vacioCarrito);
-
-if(vacioCarrito){
-    console.log("entre")
-    vacioCarrito.addEventListener("click",()=>{
-        carrito = {}
-        renderizarCarrito()
-    })
-}
-
-// Si el usuario quiere vaciar completamente el carrito, elimino todo su contenido
 
 $(() => {
     // Evento que recibe cuando se da click en el boton mostrar carrito

@@ -60,7 +60,7 @@ $(() => {
                 let divCompra = document.createElement("div")
                 divCompra.className = 'divCompra'
                 divCompra.innerHTML +=     `
-                <p> Producto: ${producto} </p>
+                <p> Articulo: ${producto} </p>
                 <p> Precio: ${precio} </p>
                 <p> Cuotas: ${elegirCuotas} </p>
                 <p> Unidades: ${elegirUnidades} </p>
@@ -98,5 +98,141 @@ $(() => {
         document.getElementById("ventanaEmergente").style.display = "none"
         verificadorCompra = 0
         $(".divCompra").remove()
+    })
+})
+
+const botonCarrito = document.querySelector("#agregar-carrito")
+
+// Carrito de compras
+botonCarrito.addEventListener("click",agregarAlCarrito)
+
+// Creamos un arrray vacio en caso de que no haya nada cargado
+let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
+
+const ventanaAbierta = document.querySelector("#ventanaCarro") //Boton para mostrar el carrito
+
+
+// Se recibe el evento de click con sus datos
+function agregarAlCarrito(e){
+    if(document.getElementById("ventanaCarro").style.display == "block"){
+        renderizarCarrito()
+    }
+    // Llamo a esta funcion para tener datos del producto
+    obtenerDatos(productoCompra)
+}
+
+console.log(productoCompra);
+
+function obtenerDatos(producto) {
+    // Construyo el objeto para guardarlo en array
+    let datosProducto = {
+        articulo: producto.querySelector("h2").textContent,
+        precio: producto.querySelector("p").textContent,
+        imagen: producto.querySelector("img").src,
+        // id: producto.querySelector(".comprar").id,
+    }
+    console.log(datosProducto);
+
+    // Pusheamos el carrito
+    carrito.push(datosProducto)
+    guardarLocalStorage()
+}
+
+// Guardo los datos en local storage
+function guardarLocalStorage(){
+    localStorage.setItem("carrito",JSON.stringify(carrito))
+}
+
+
+// Se crea el carrito
+
+const contenedorCarrito = document.querySelector("#carrito") //Div donde voy a agregar los productos
+const mostrarCarrito = document.querySelector("#mostrar-carrito") //Boton para mostrar el carrito
+
+if(mostrarCarrito){
+    mostrarCarrito.addEventListener("click",muestroCarrito)
+}
+
+function muestroCarrito (){
+    if(!localStorage.getItem("carrito")){
+        // Para mostrar mensaje solo una vez
+        limpiarCarritoVacio()
+        const carroVacio = document.createElement("p")
+        carroVacio.innerHTML = "Carrito vacio"
+        contenedorCarrito.appendChild(carroVacio)
+    }else{
+        renderizarCarrito()
+    }
+}
+
+function limpiarCarritoVacio(){
+    while (contenedorCarrito.firstChild){
+        contenedorCarrito.removeChild(contenedorCarrito.firstChild)
+    }
+}
+
+function renderizarCarrito(){
+    // Para mostrar carrito solo una vez
+    limpiarCarrito()
+    carrito.forEach(producto => {
+        const divCarro = document.createElement("div")
+        divCarro.classList.add("row")
+        divCarro.classList.add("productoCarrito")
+
+        divCarro.innerHTML += `
+            <div class="col-lg-4">
+                <img src=${producto.imagen}>
+            </div>
+            <div class="col-lg-6">
+                <h2>${producto.articulo}</h2>
+                <h3>${producto.precio}</h3>
+            </div>
+            <div class="col-lg-2 cantidadCarrito">
+                <button>-</button>
+                <input type="text" id="${producto.id}" name="producto">
+                <button>+</button>
+            </div>
+        `
+        contenedorCarrito.appendChild(divCarro)
+    })
+
+    // Agrego boton para vaciar carrito
+
+    contenedorCarrito.innerHTML += `
+        <div class="col-lg-2">
+            <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito">Vaciar carrito</button>
+        </div>
+    `
+
+    // Si el usuario quiere vaciar completamente el carrito, elimino todo su contenido
+
+    const vacioCarrito = document.getElementById("vaciarCarrito")
+
+    if(vacioCarrito){
+        vacioCarrito.addEventListener("click",()=>{
+            carrito.splice(0, carrito.length)
+            localStorage.removeItem("carrito")
+            muestroCarrito ()
+        })
+    }
+}
+
+function limpiarCarrito(){
+    while (contenedorCarrito.firstChild){
+        contenedorCarrito.removeChild(contenedorCarrito.firstChild)
+    }
+}
+
+
+
+$(() => {
+    // Evento que recibe cuando se da click en el boton mostrar carrito
+    $("#mostrar-carrito").click(()=> {
+        document.getElementById("ventanaCarro").style.display = "block"
+    })
+
+    // Evento que espera click en la x
+    $("#cerrarVentanaCarro").click(()=> {
+        document.getElementById("ventanaCarro").style.display = "none"
     })
 })
