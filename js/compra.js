@@ -109,16 +109,26 @@ botonCarrito.addEventListener("click",agregarAlCarrito)
 // Creamos un arrray vacio en caso de que no haya nada cargado
 let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
 
-const ventanaAbierta = document.querySelector("#ventanaCarro") //Boton para mostrar el carrito
+// Indicador para mostrar le mensaje una sola vez
+let contadorMensajeCarrito = 0
+
 
 
 // Se recibe el evento de click con sus datos
 function agregarAlCarrito(e){
-    if(document.getElementById("ventanaCarro").style.display == "block"){
-        renderizarCarrito()
+    if(document.getElementById("ventanaCarro").style.display !== "block"){
+        // Llamo a esta funcion para tener datos del producto
+        obtenerDatos(productoCompra)
+    }else{
+        if(contadorMensajeCarrito == 0){
+            contadorMensajeCarrito = 1
+            $("#mensajeCarroAbierto").fadeIn(1500)
+            $("#mensajeCarroAbierto").fadeOut(1500, function(){
+                contadorMensajeCarrito = 0
+            })
+        }
     }
-    // Llamo a esta funcion para tener datos del producto
-    obtenerDatos(productoCompra)
+    
 }
 
 console.log(productoCompra);
@@ -188,9 +198,9 @@ function renderizarCarrito(){
                 <h3>${producto.precio}</h3>
             </div>
             <div class="col-lg-2 cantidadCarrito">
-                <button>-</button>
-                <input type="text" id="${producto.id}" name="producto">
-                <button>+</button>
+                <button class="btn btn-dark resta">-</button>
+                <p type="text" id="${producto.id}" name="producto">${producto.cantidad}</p>
+                <button class="btn btn-dark suma" id="suma">+</button>
             </div>
         `
         contenedorCarrito.appendChild(divCarro)
@@ -200,7 +210,7 @@ function renderizarCarrito(){
 
     contenedorCarrito.innerHTML += `
         <div class="col-lg-2">
-            <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito">Vaciar carrito</button>
+            <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito"><i class="fas fa-trash-alt"></i></button>
         </div>
     `
 
@@ -228,11 +238,11 @@ function limpiarCarrito(){
 $(() => {
     // Evento que recibe cuando se da click en el boton mostrar carrito
     $("#mostrar-carrito").click(()=> {
-        document.getElementById("ventanaCarro").style.display = "block"
-    })
-
-    // Evento que espera click en la x
-    $("#cerrarVentanaCarro").click(()=> {
-        document.getElementById("ventanaCarro").style.display = "none"
+        if(document.getElementById("ventanaCarro").style.display == "block"){
+            document.getElementById("ventanaCarro").style.display = "none"
+        }
+        else{
+            document.getElementById("ventanaCarro").style.display = "block"
+        }
     })
 })

@@ -60,14 +60,21 @@
 
     <!-- Carrito de compras -->
     <div class="ventanaCarro" id="ventanaCarro">
-        <a id="cerrarVentanaCarro">X</a>
         <h5 id="tituloCarro">Carrito de compras:</h5>
         <div id="carrito"></div>
+        <div id="mensajeCarroAbierto" class="mensajeCarroAbierto">Cerrar carrito para seguir comprando</div>
     </div>
 
     <!-- contenido -->
     <div class="container">
-        <h1 class="tituloProductos centrarTexto">Encontra lo que buscas:</h1>
+        <div class="row">
+            <div class="col-lg-6 col-md-12 col-xs-12">
+                <h1 class="tituloProductos">Encontra lo que buscas:</h1>
+            </div>
+            <div class="col-lg-6 col-md-12 col-xs-12">
+                <div id="mensajeObjetoEnCarrito">Este producto ya esta en el carrito</div>
+            </div>
+        </div>
         <div class="row" id="items">
         </div>
     </div>
@@ -86,6 +93,7 @@
         </div>
     </template>
 
+    
     <!-- footer -->
     <footer class="container-fluid">
         <div class="row">
@@ -107,7 +115,6 @@
             </div>
         </div>
     </footer>
-
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

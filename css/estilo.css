@@ -57,6 +57,9 @@ body {
 .divDatos {
   color: red; }
 
+.ventanaCarro {
+  background-color: #ecdca4; }
+
 body {
   font-family: "Barlow", sans-serif; }
 
@@ -94,6 +97,9 @@ h1 {
   font-size: 40px; }
 
 .ventanaCarro .mensajeCarro {
+  font-size: 20px; }
+
+#mensajeObjetoEnCarrito {
   font-size: 20px; }
 
 li {
@@ -330,32 +336,42 @@ button {
   padding: 33px;
   min-height: 300px;
   position: absolute;
-  left: 50%;
+  left: 55%;
   top: 20%;
   display: none; }
   .ventanaCarro p {
     text-align: left; }
-  .ventanaCarro a {
-    position: relative;
-    bottom: 10px;
-    left: 230px; }
   .ventanaCarro h5 {
     margin-bottom: 20px; }
 
 .cantidadCarrito {
   display: flex;
   height: 50%; }
-  .cantidadCarrito input {
-    width: 20px;
+  .cantidadCarrito .suma {
     position: relative;
-    top: 10px;
-    margin: 1px; }
+    left: 10px; }
+  .cantidadCarrito .resta {
+    position: relative;
+    right: 10px; }
+  .cantidadCarrito p {
+    position: relative;
+    top: 17px; }
 
 .vaciarCarrito {
-  width: 300%; }
+  width: 100%; }
 
 .mostrar-carrito {
-  border-radius: 50px; }
+  border-radius: 50px;
+  position: relative;
+  left: 100px; }
+
+#mensajeCarroAbierto {
+  display: none; }
+
+#mensajeObjetoEnCarrito {
+  display: none;
+  position: relative;
+  left: 50px; }
 
 .card-body img {
   width: 100%; }

@@ -41,7 +41,6 @@ function guardarId(){
     for(let i = 0;i < botonesCompra.length;i++){
         botonesCompra[i].addEventListener("click",function(){
             let idBoton = this.id
-            console.log(idBoton)
             localStorage.setItem("ID", idBoton)
         })
     }
@@ -52,23 +51,28 @@ items.addEventListener("click",agregarAlCarrito)
 
 // Creamos un arrray vacio en caso de que no haya nada cargado
 let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
-
-const ventanaAbierta = document.querySelector("#ventanaCarro") //Boton para mostrar el carrito
-
+// Indicador para mostrar le mensaje una sola vez
+let contadorMensajeCarrito = 0
 
 // Se recibe el evento de click con sus datos
 function agregarAlCarrito(e){
-    if(document.getElementById("ventanaCarro").style.display == "block"){
-        renderizarCarrito()
-    }
     // Se localiza el click
     if(e.target.classList.contains("agregar-carrito")){
-        // Guardo dentro de productoSeleccionado la tarjeta
-        let productoSeleccionado = e.target.parentNode
-        console.log(productoSeleccionado)
+        if(document.getElementById("ventanaCarro").style.display !== "block"){
+            // Guardo dentro de productoSeleccionado la tarjeta
+            let productoSeleccionado = e.target.parentNode
 
-        // Llamo a esta funcion para tener datos del producto
-        obtenerDatos(productoSeleccionado)
+            // Llamo a esta funcion para tener datos del producto
+            obtenerDatos(productoSeleccionado)
+        }else{
+            if(contadorMensajeCarrito == 0){
+                contadorMensajeCarrito = 1
+                $("#mensajeCarroAbierto").fadeIn(1500)
+                $("#mensajeCarroAbierto").fadeOut(1500, function(){
+                    contadorMensajeCarrito = 0
+                })
+            }
+        }
     }
 }
 
@@ -79,11 +83,30 @@ function obtenerDatos(producto) {
         precio: producto.querySelector("p").textContent,
         imagen: producto.querySelector("img").src,
         id: producto.querySelector(".comprar").id,
+        cantidad: 1,
     }
 
-    // Pusheamos el carrito
-    carrito.push(datosProducto)
-    guardarLocalStorage()
+    //Verifico si el producto ya esta en el carrito de compras
+    let contadorMensajeObjetoEnCarrito = 0
+    let noAgregarObjeto = 0
+    for(let x = 0; x < carrito.length ; x++){
+        if(carrito[x].id == datosProducto.id){
+            if(contadorMensajeObjetoEnCarrito == 0){
+                contadorMensajeObjetoEnCarrito = 1
+                $("#mensajeObjetoEnCarrito").fadeIn(1500)
+                $("#mensajeObjetoEnCarrito").fadeOut(1500, function(){
+                    contadorMensajeObjetoEnCarrito = 0
+                })
+            }
+            noAgregarObjeto = 1
+        }
+    }
+    if(noAgregarObjeto == 0){
+        // Pusheamos el carrito
+        carrito.push(datosProducto)
+        guardarLocalStorage()
+    }
+    noAgregarObjeto = 0
 }
 
 // Guardo los datos en local storage
@@ -121,7 +144,6 @@ function limpiarCarritoVacio(){
 
 function renderizarCarrito(){
     // Para mostrar carrito solo una vez
-    console.log(carrito);
     if(carrito.length !== 0){
         limpiarCarrito()
     }
@@ -139,9 +161,9 @@ function renderizarCarrito(){
                 <h3>${producto.precio}</h3>
             </div>
             <div class="col-lg-2 cantidadCarrito">
-                <button>-</button>
-                <input type="text" id="${producto.id}" name="producto">
-                <button>+</button>
+                <button class="btn btn-dark resta">-</button>
+                <p type="text" id="${producto.id}" name="producto">${producto.cantidad}</p>
+                <button class="btn btn-dark suma" id="suma">+</button>
             </div>
         `
         contenedorCarrito.appendChild(divCarro)
@@ -151,7 +173,7 @@ function renderizarCarrito(){
 
     contenedorCarrito.innerHTML += `
         <div class="col-lg-2">
-            <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito">Vaciar carrito</button>
+            <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito"><i class="fas fa-trash-alt"></i></button>
         </div>
     `
 
@@ -164,8 +186,49 @@ function renderizarCarrito(){
             carrito.splice(0, carrito.length)
             localStorage.removeItem("carrito")
             muestroCarrito ()
-            console.log(carrito);
         })
+    }
+
+    // Funcion para sumar elementos al carrito
+
+    let botonesCantidad = document.getElementsByClassName("cantidadCarrito");
+
+    console.log(botonesCantidad);
+    for(let el of botonesCantidad) {
+        el.addEventListener("click",(e)=>{
+            if(e.target.classList.contains("suma")){
+                let idSumaProductos = parseInt(e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.id)
+                let cantidadSumaProductos = parseInt(e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent)
+    
+                console.log("primero",e.target.parentNode);
+                
+                cantidadSumaProductos = cantidadSumaProductos + 1
+                e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent = cantidadSumaProductos
+    
+                console.log("segundo",e.target.parentNode);
+    
+                for(let x = 0; x < carrito.length ; x++){
+                    if(carrito[x].id == idSumaProductos){
+                        carrito[x].cantidad = cantidadSumaProductos
+                    }
+                }
+                guardarLocalStorage()
+            }
+            if(e.target.classList.contains("resta")){
+                let idRestaProductos = parseInt(e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.id)
+                let cantidadRestaProductos = parseInt(e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent)
+                if(cantidadRestaProductos > 1){
+                    cantidadRestaProductos = cantidadRestaProductos - 1
+                    e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent = cantidadRestaProductos
+                    for(let x = 0; x < carrito.length ; x++){
+                        if(carrito[x].id == idRestaProductos){
+                            carrito[x].cantidad = cantidadRestaProductos
+                        }
+                    }
+                    guardarLocalStorage()
+                }
+            }
+        })    
     }
 }
 
@@ -175,16 +238,17 @@ function limpiarCarrito(){
     }
 }
 
-
-
 $(() => {
     // Evento que recibe cuando se da click en el boton mostrar carrito
     $("#mostrar-carrito").click(()=> {
-        document.getElementById("ventanaCarro").style.display = "block"
-    })
-
-    // Evento que espera click en la x
-    $("#cerrarVentanaCarro").click(()=> {
-        document.getElementById("ventanaCarro").style.display = "none"
+        if(document.getElementById("ventanaCarro").style.display == "block"){
+            document.getElementById("ventanaCarro").style.display = "none"
+        }
+        else{
+            document.getElementById("ventanaCarro").style.display = "block"
+        }
     })
 })
+
+
+
