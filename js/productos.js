@@ -4,7 +4,9 @@ const items = document.getElementById("items")
 const templateCard = document.getElementById("template-card").content
 const fragment = document.createDocumentFragment()
 let cargaDatos
-
+let verificadorCompra = 0
+const contenedorCarrito = document.querySelector("#carrito") //Div donde voy a agregar los productos
+const mostrarCarrito = document.querySelector("#mostrar-carrito") //Boton para mostrar el carrito
 
 // Evento donde se espera que se cargue completamente el HTML
 document.addEventListener("DOMContentLoaded", e => { fetchData() })
@@ -91,12 +93,12 @@ function obtenerDatos(producto) {
     let noAgregarObjeto = 0
     for(let x = 0; x < carrito.length ; x++){
         if(carrito[x].id == datosProducto.id){
-            if(contadorMensajeObjetoEnCarrito == 0){
+            if(contadorMensajeObjetoEnCarrito !== 1){
                 contadorMensajeObjetoEnCarrito = 1
-                $("#mensajeObjetoEnCarrito").fadeIn(1500)
-                $("#mensajeObjetoEnCarrito").fadeOut(1500, function(){
+                $("#mensajeObjetoEnCarrito").fadeIn(1500, function(){
                     contadorMensajeObjetoEnCarrito = 0
                 })
+                $("#mensajeObjetoEnCarrito").fadeOut(1500)
             }
             noAgregarObjeto = 1
         }
@@ -116,9 +118,6 @@ function guardarLocalStorage(){
 
 
 // Se crea el carrito
-
-const contenedorCarrito = document.querySelector("#carrito") //Div donde voy a agregar los productos
-const mostrarCarrito = document.querySelector("#mostrar-carrito") //Boton para mostrar el carrito
 
 if(mostrarCarrito){
     mostrarCarrito.addEventListener("click",muestroCarrito)
@@ -142,7 +141,13 @@ function limpiarCarritoVacio(){
     }
 }
 
-function renderizarCarrito(){
+function limpiarCarrito(){
+    while (contenedorCarrito.firstChild){
+        contenedorCarrito.removeChild(contenedorCarrito.firstChild)
+    }
+}
+
+function mostrarElementos(){
     // Para mostrar carrito solo una vez
     if(carrito.length !== 0){
         limpiarCarrito()
@@ -153,10 +158,13 @@ function renderizarCarrito(){
         divCarro.classList.add("productoCarrito")
 
         divCarro.innerHTML += `
+            <div class="col-lg-1">
+                <p class="eliminarUnProducto">x</p>
+            </div>
             <div class="col-lg-4">
                 <img src=${producto.imagen}>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <h2>${producto.articulo}</h2>
                 <h3>${producto.precio}</h3>
             </div>
@@ -168,15 +176,47 @@ function renderizarCarrito(){
         `
         contenedorCarrito.appendChild(divCarro)
     })
+}
 
+function botonVaciarCarrito(){
     // Agrego boton para vaciar carrito
 
     contenedorCarrito.innerHTML += `
-        <div class="col-lg-2">
+        <div class="col-lg-2 textoCarrito">
             <button class="btn btn-dark vaciarCarrito" id="vaciarCarrito"><i class="fas fa-trash-alt"></i></button>
+            <p>Total:</p><p class="precioCarrito">precio</p>
+            <button class="btn btn-dark finalizarCompra" id="finalizarCompra">Comprar</button>
         </div>
     `
+}
 
+function eliminarUnElemento(){
+    let borrarProducto = document.getElementsByClassName("eliminarUnProducto")
+
+    for(let elementos of borrarProducto) {
+        elementos.addEventListener("click",(e)=>{
+            let idProducto = elementos.parentNode.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling.firstChild.nextSibling.nextSibling.nextSibling.id
+
+            // Elimino producto visualmente
+            elementos.parentElement.parentElement.remove()
+
+            // Elimino producto del carrito
+            for(let x = 0; x < carrito.length ; x++){
+                if(carrito[x].id == idProducto){
+                    carrito.splice(x, 1)
+                    guardarLocalStorage()
+                    sumarPrecioTotal()
+                }
+            }
+            if(carrito.length == 0){
+                localStorage.removeItem("carrito")
+                muestroCarrito ()
+            }
+        })
+    }
+}
+
+function vaciarCarrito(){
     // Si el usuario quiere vaciar completamente el carrito, elimino todo su contenido
 
     const vacioCarrito = document.getElementById("vaciarCarrito")
@@ -188,28 +228,28 @@ function renderizarCarrito(){
             muestroCarrito ()
         })
     }
+}
 
-    // Funcion para sumar elementos al carrito
+function agregarElementosAlCarrito(){
 
-    let botonesCantidad = document.getElementsByClassName("cantidadCarrito");
+    // Funcion para sumar o restar elementos al carrito
 
-    console.log(botonesCantidad);
+    let botonesCantidad = document.getElementsByClassName("cantidadCarrito")
+
     for(let el of botonesCantidad) {
         el.addEventListener("click",(e)=>{
+
             if(e.target.classList.contains("suma")){
                 let idSumaProductos = parseInt(e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.id)
                 let cantidadSumaProductos = parseInt(e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent)
-    
-                console.log("primero",e.target.parentNode);
                 
                 cantidadSumaProductos = cantidadSumaProductos + 1
                 e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent = cantidadSumaProductos
     
-                console.log("segundo",e.target.parentNode);
-    
                 for(let x = 0; x < carrito.length ; x++){
                     if(carrito[x].id == idSumaProductos){
                         carrito[x].cantidad = cantidadSumaProductos
+                        sumarPrecioTotal()
                     }
                 }
                 guardarLocalStorage()
@@ -217,12 +257,15 @@ function renderizarCarrito(){
             if(e.target.classList.contains("resta")){
                 let idRestaProductos = parseInt(e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.id)
                 let cantidadRestaProductos = parseInt(e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent)
+
                 if(cantidadRestaProductos > 1){
                     cantidadRestaProductos = cantidadRestaProductos - 1
                     e.target.parentNode.firstChild.nextSibling.nextSibling.nextSibling.textContent = cantidadRestaProductos
+
                     for(let x = 0; x < carrito.length ; x++){
                         if(carrito[x].id == idRestaProductos){
                             carrito[x].cantidad = cantidadRestaProductos
+                            sumarPrecioTotal()
                         }
                     }
                     guardarLocalStorage()
@@ -232,11 +275,91 @@ function renderizarCarrito(){
     }
 }
 
-function limpiarCarrito(){
-    while (contenedorCarrito.firstChild){
-        contenedorCarrito.removeChild(contenedorCarrito.firstChild)
+function sumarPrecioTotal(){
+
+    let precioTotal = 0
+    let precioUnitarioProducto = 0
+
+    for(let x = 0; x < carrito.length ; x++){
+        precioUnitarioProducto = carrito[x].precio * carrito[x].cantidad
+        precioTotal = precioTotal + precioUnitarioProducto
+        document.querySelector(".precioCarrito").textContent = "$"+(new Intl.NumberFormat('de-DE').format(precioTotal))
     }
 }
+
+function finalizarCompra(){
+    let botonFinalizarCompra = document.getElementById("finalizarCompra")
+    let nombreProductos = ""
+    let cantidadArticulos = 0
+    let costo = 0
+
+    botonFinalizarCompra.addEventListener("click", (e) =>{
+
+        // Recorro carrito para obtener datos
+        for(let x = 0; x < carrito.length ; x++){
+            costo = costo + parseInt(carrito[x].precio * carrito[x].cantidad)
+            nombreProductos = " " + nombreProductos + carrito[x].articulo + "<br>"
+            cantidadArticulos = cantidadArticulos + parseInt(carrito[x].cantidad)
+        }
+
+        // Uso el verificador para mostrar los datos solo 1 vez
+        if(verificadorCompra == 0){
+            document.getElementById("ventanaFinalizarCompra").style.display = "block"
+            document.getElementById("ventanaCarro").style.display = "none"
+            let divCompraCarrito = document.createElement("div")
+            divCompraCarrito.className = 'divCompraCarrito'
+            divCompraCarrito.innerHTML +=     `
+            <div class="articulos"> Articulos:<p class="listaProductos">${nombreProductos}</p></div>
+            <p> Total a pagar:$${costo}</p>
+            <p> Unidades: ${cantidadArticulos}</p>
+            <ul>
+                <li>
+                    Método de pago:
+                    <select name="Metodo de pago" class="btn btn-dark">
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Tarjeta de debito">Tarjeta de debito</option>
+                        <option value="Tarjeta de credito">Tarjeta de credito</option>
+                    </select>
+                </li>
+            </ul>
+            <button id="finalizarCompraCarrito" class="btn btn-dark">Finalizar Compra</button>
+            `
+            document.getElementById("ventanaFinalizarCompra").appendChild(divCompraCarrito)
+            verificadorCompra = 1
+
+            // Evento que espera click el boton de finalizar compra
+            $("#finalizarCompraCarrito").click(()=>{
+                document.getElementById("ventanaCompraCarritoFinalizada").style.display = "block"
+            })
+        }
+    })
+}
+
+// Funcion principal que contiene el resto de las funciones
+function renderizarCarrito(){
+
+    mostrarElementos()
+
+    botonVaciarCarrito()
+
+    eliminarUnElemento()
+
+    vaciarCarrito()
+
+    agregarElementosAlCarrito()
+
+    sumarPrecioTotal()
+
+    finalizarCompra()
+}
+
+// Evento que espera click el boton de finalizar compra
+$("#cerrarCompraCarritoFinalizada").click(()=>{
+    carrito.splice(0, carrito.length)
+    localStorage.removeItem("carrito")
+    document.getElementById("ventanaCompraCarritoFinalizada").style.display = "none"
+    document.getElementById("ventanaFinalizarCompra").style.display = "none"
+})
 
 $(() => {
     // Evento que recibe cuando se da click en el boton mostrar carrito
@@ -247,6 +370,14 @@ $(() => {
         else{
             document.getElementById("ventanaCarro").style.display = "block"
         }
+    })
+
+    //Evento para cerrar ventana de finalizar compra
+
+    $("#cerrarVentanaFinalizarCompra").click(()=>{
+        document.getElementById("ventanaFinalizarCompra").style.display = "none"
+        verificadorCompra = 0
+        document.querySelector(".divCompraCarrito").remove()
     })
 })
 

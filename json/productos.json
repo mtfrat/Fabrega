@@ -1,6 +1,6 @@
 [
     {
-      "precio": "$10.000",
+      "precio": "10000",
       "id": 1,
       "producto": "Televisor",
       "src": "../assets/img/tele1.jpg",
@@ -8,7 +8,7 @@
       "class": "botonCompra"
     },
     {
-      "precio": "$50.000",
+      "precio": "50000",
       "id": 2,
       "producto": "Computadora",
       "src": "../assets/img/compu1.jpg",
@@ -16,7 +16,7 @@
       "class": "botonCompra"
     },
     {
-      "precio": "$70.000",
+      "precio": "70000",
       "id": 3,
       "producto": "Aire acondicionado",
       "src": "../assets/img/aire1.jpg",
@@ -24,7 +24,7 @@
       "class": "botonCompra"
     },
     {
-      "precio": "$8.000",
+      "precio": "8000",
       "id": 4,
       "producto": "Licuadora",
       "src": "../assets/img/licuadora.jpg",
@@ -32,7 +32,7 @@
       "class": "botonCompra"
     },
     {
-      "precio": "$4.000",
+      "precio": "4000",
       "id": 5,
       "producto": "Tostadora",
       "src": "../assets/img/tostadora.jpg",
@@ -40,7 +40,7 @@
       "class": "botonCompra"
     },
     {
-      "precio": "$30.000",
+      "precio": "30000",
       "id": 6,
       "producto": "Microondas",
       "src": "../assets/img/microondas.jpg",

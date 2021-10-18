@@ -259,7 +259,7 @@ button {
     margin-bottom: 10px;
     margin-left: 0px;
     position: relative;
-    top: 30px;
+    top: 80px;
   }
 }
 
@@ -316,10 +316,72 @@ button {
 
 #mensajeCarroAbierto {
   display: none;
+  padding: 10px;
 }
 
 #mensajeObjetoEnCarrito {
   display: none;
   position: relative;
   left: 50px;
+}
+
+.textoCarrito {
+  display: flex;
+  justify-content: space-between;
+  p {
+    position: relative;
+    left: 150px;
+    top: 17px;
+  }
+  .finalizarCompra {
+    position: relative;
+    left: 250px;
+  }
+}
+
+#cerrarVentanaCompraFinalizada {
+  text-decoration: none;
+}
+
+.ventanaFinalizarCompra {
+  z-index: 998;
+  width: 40%;
+  text-align: center;
+  padding: 33px;
+  min-height: 300px;
+  position: absolute;
+  left: 30%;
+  top: 20%;
+  display: none;
+  a {
+    position: relative;
+    left: 45%;
+  }
+}
+
+.ventanaCompraCarritoFinalizada {
+  z-index: 999;
+  width: 25%;
+  text-align: center;
+  padding: 33px;
+  min-height: 100px;
+  position: absolute;
+  left: 38%;
+  top: 30%;
+  display: none;
+  a {
+    position: relative;
+    bottom: 10px;
+    left: 110px;
+  }
+}
+
+.articulos {
+  display: flex;
+  justify-content: center;
+}
+
+.listaProductos {
+  text-align: justify;
+  flex-direction: column;
 }

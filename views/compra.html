@@ -65,20 +65,41 @@
         <div id="mensajeCarroAbierto" class="mensajeCarroAbierto">Cerrar carrito para seguir comprando</div>
     </div>
 
+
     <div class="ventanaEmergente" id="ventanaEmergente">
         <a id="cerrarVentana">X</a>
         <h5>Resumen de compra:</h5>
     </div>
 
+    <!-- Ventana finalizar compra de un solo articulo -->
     <div class="ventanaCompraFinalizada" id="ventanaCompraFinalizada">
-        <a id="cerrarVentanaCompraFinalizada">X</a>
+        <a id="cerrarVentanaCompraFinalizada" href="productos.html">X</a>
+        <h5>Compra relizada con éxito!</h5>
+    </div>
+
+    <!-- Ventana resumen de compra -->
+    <div class="ventanaFinalizarCompra" id="ventanaFinalizarCompra">
+        <a id="cerrarVentanaFinalizarCompra">X</a>
+        <h5>Resumen de compra:</h5>
+    </div>
+
+    <!-- Ventana compra carrito finalizada -->
+    <div class="ventanaCompraCarritoFinalizada" id="ventanaCompraCarritoFinalizada">
+        <a id="cerrarCompraCarritoFinalizada" href="../index.html">X</a>
         <h5>Compra relizada con éxito!</h5>
     </div>
 
 
     <!-- contenido -->
     <div class="container containerProductos">
-        <h1 class="tituloProductos">Realiza tu compra:</h1>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-xs-12">
+                <h1 class="tituloProductos">Realiza tu compra:</h1>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-12">
+                <div id="mensajeObjetoEnCarrito">Este producto ya esta en el carrito</div>
+            </div>
+        </div>
         <div class="row" id="compra">
             <template id="productoCompra">
                 <div class="col-lg-6 col-md-6 col-xs-12 imagenProducto">
@@ -88,16 +109,6 @@
                     <h2 id="producto">Producto</h2>
                     <div class="mostrarPrecio">Precio: <p id="precio">Precio</p></div>
                     <ul>
-                        <li>
-                            Color:
-                            <select name="Color" id="elegirColor">
-                                <option value=""></option>
-                                <option value="Azul">Azul</option>
-                                <option value="Blanco">Blanco</option>
-                                <option value="Negro">Negro</option>
-                                <option value="Verde">Verde</option>
-                            </select>
-                        </li>
                         <li>
                             Cantidad:
                             <select name="Unidades" id="elegirUnidades">
@@ -109,13 +120,12 @@
                             </select>
                         </li>
                         <li>
-                            Cuotas:
-                            <select name="Cuotas" id="elegirCuotas">
+                            Método de pago:
+                            <select name="Metodo de pago" id="elegirMetodoDePago">
                                 <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="3">3</option>
-                                <option value="6">6</option>
-                                <option value="12">12</option>
+                                <option value="Tarjeta de debito">Tarjeta de debito</option>
+                                <option value="Tarjeta de credito">Tarjeta de credito</option>
+                                <option value="Efectivo">Efectivo</option>
                             </select>
                         </li>
                     </ul>

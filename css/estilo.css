@@ -60,6 +60,18 @@ body {
 .ventanaCarro {
   background-color: #ecdca4; }
 
+#cerrarVentanaCompraFinalizada {
+  color: #ffffff; }
+
+.ventanaFinalizarCompra {
+  background-color: #4e177b; }
+
+.ventanaCompraCarritoFinalizada {
+  background-color: #ecdca4; }
+  .ventanaCompraCarritoFinalizada a {
+    text-decoration: none;
+    color: white; }
+
 body {
   font-family: "Barlow", sans-serif; }
 
@@ -101,6 +113,9 @@ h1 {
 
 #mensajeObjetoEnCarrito {
   font-size: 20px; }
+
+.ventanaFinalizarCompra h5 {
+  font-size: 30px; }
 
 li {
   list-style-type: none;
@@ -322,7 +337,7 @@ button {
   margin-bottom: 10px;
   margin-left: 0px;
   position: relative;
-  top: 30px; }
+  top: 80px; }
 
 .botones {
   position: relative;
@@ -366,12 +381,64 @@ button {
   left: 100px; }
 
 #mensajeCarroAbierto {
-  display: none; }
+  display: none;
+  padding: 10px; }
 
 #mensajeObjetoEnCarrito {
   display: none;
   position: relative;
   left: 50px; }
+
+.textoCarrito {
+  display: flex;
+  justify-content: space-between; }
+  .textoCarrito p {
+    position: relative;
+    left: 150px;
+    top: 17px; }
+  .textoCarrito .finalizarCompra {
+    position: relative;
+    left: 250px; }
+
+#cerrarVentanaCompraFinalizada {
+  text-decoration: none; }
+
+.ventanaFinalizarCompra {
+  z-index: 998;
+  width: 40%;
+  text-align: center;
+  padding: 33px;
+  min-height: 300px;
+  position: absolute;
+  left: 30%;
+  top: 20%;
+  display: none; }
+  .ventanaFinalizarCompra a {
+    position: relative;
+    left: 45%; }
+
+.ventanaCompraCarritoFinalizada {
+  z-index: 999;
+  width: 25%;
+  text-align: center;
+  padding: 33px;
+  min-height: 100px;
+  position: absolute;
+  left: 38%;
+  top: 30%;
+  display: none; }
+  .ventanaCompraCarritoFinalizada a {
+    position: relative;
+    bottom: 10px;
+    left: 110px; }
+
+.articulos {
+  display: flex;
+  justify-content: center; }
+
+.listaProductos {
+  text-align: justify;
+  flex-direction: column; }
 
 .card-body img {
   width: 100%; }

@@ -102,3 +102,19 @@ body {
 .ventanaCarro {
   background-color: #ecdca4;
 }
+
+#cerrarVentanaCompraFinalizada {
+  color: #ffffff;
+}
+
+.ventanaFinalizarCompra {
+  background-color: #4e177b;
+}
+
+.ventanaCompraCarritoFinalizada {
+  background-color: #ecdca4;
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
