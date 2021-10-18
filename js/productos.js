@@ -7,6 +7,10 @@ let cargaDatos
 let verificadorCompra = 0
 const contenedorCarrito = document.querySelector("#carrito") //Div donde voy a agregar los productos
 const mostrarCarrito = document.querySelector("#mostrar-carrito") //Boton para mostrar el carrito
+let contadorMensajeObjetoEnCarrito = 0 //Verifico si el producto ya esta en el carrito de compras
+// Creamos un arrray vacio en caso de que no haya nada cargado
+let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
+let contadorMensajeCarrito = 0  // Indicador para mostrar el mensaje una sola vez
 
 // Evento donde se espera que se cargue completamente el HTML
 document.addEventListener("DOMContentLoaded", e => { fetchData() })
@@ -51,11 +55,6 @@ function guardarId(){
 // Carrito de compras
 items.addEventListener("click",agregarAlCarrito)
 
-// Creamos un arrray vacio en caso de que no haya nada cargado
-let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
-// Indicador para mostrar le mensaje una sola vez
-let contadorMensajeCarrito = 0
-
 // Se recibe el evento de click con sus datos
 function agregarAlCarrito(e){
     // Se localiza el click
@@ -88,8 +87,6 @@ function obtenerDatos(producto) {
         cantidad: 1,
     }
 
-    //Verifico si el producto ya esta en el carrito de compras
-    let contadorMensajeObjetoEnCarrito = 0
     let noAgregarObjeto = 0
     for(let x = 0; x < carrito.length ; x++){
         if(carrito[x].id == datosProducto.id){
@@ -115,7 +112,6 @@ function obtenerDatos(producto) {
 function guardarLocalStorage(){
     localStorage.setItem("carrito",JSON.stringify(carrito))
 }
-
 
 // Se crea el carrito
 

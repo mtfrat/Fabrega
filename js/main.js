@@ -3,6 +3,7 @@
 const botonSwitch = document.querySelector("#switch")
 
 $(() => {
+    // Capturo evento de click
     $("#switch").click(()=> {
         document.body.classList.toggle("dark")
         botonSwitch.classList.toggle("active")
@@ -16,7 +17,7 @@ $(() => {
     })   
 })
 
-// Pregunto por eleccion del modo
+// Pregunto por eleccion del modo (queda guardado en el local storage)
 
 if (localStorage.getItem("dark_mode") === "true") {
     document.body.classList.add("dark")

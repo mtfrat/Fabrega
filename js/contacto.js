@@ -1,5 +1,6 @@
+// Variables
 let divContacto = document.getElementById("divContacto")
-let verificador = 0
+let verificador = 0 //Uso verificador para mostrar los datos solo una vez
 
 $(()=>{
     //Evento que se activa despues de darle click al boton ver sucursales 

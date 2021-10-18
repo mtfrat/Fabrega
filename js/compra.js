@@ -11,8 +11,14 @@ let divDatos
 const compra = document.getElementById('compra')
 const productoCompra = document.getElementById('productoCompra').content
 const fragment = document.createDocumentFragment()
-
+let contadorMensajeCarrito = 0 // Indicador para mostrar le mensaje una sola vez
+let contadorMensajeObjetoEnCarrito = 0 //Verifico si el producto ya esta en el carrito de compras
 let botonPresionado = localStorage.getItem("ID")
+const contenedorCarrito = document.querySelector("#carrito") //Div donde voy a agregar los productos
+const mostrarCarrito = document.querySelector("#mostrar-carrito") //Boton para mostrar el carrito
+const botonCarrito = document.querySelector("#agregar-carrito")
+// Creamos un arrray vacio en caso de que no haya nada cargado
+let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
 
 // Evento donde se espera que se cargue completamente el HTML
 document.addEventListener('DOMContentLoaded', e => { fetchData() })
@@ -41,7 +47,6 @@ const mostrarProducto = data => {
 }
 
 $(() => {
-
     // Evento que recibe cuando se da click en el boton Comprar
     $("#verCompra").click(()=> {
         // Obtengo datos de la compra
@@ -99,16 +104,8 @@ $(() => {
     })
 })
 
-const botonCarrito = document.querySelector("#agregar-carrito")
-
 // Carrito de compras
 botonCarrito.addEventListener("click",agregarAlCarrito)
-
-// Creamos un arrray vacio en caso de que no haya nada cargado
-let carrito = JSON.parse(localStorage.getItem("carrito"))|| []
-
-// Indicador para mostrar le mensaje una sola vez
-let contadorMensajeCarrito = 0
 
 // Se recibe el evento de click con sus datos
 function agregarAlCarrito(e){
@@ -136,17 +133,16 @@ function obtenerDatos(producto) {
         id: producto.querySelector("h2").id,
         cantidad: 1,
     }
-    //Verifico si el producto ya esta en el carrito de compras
-    let contadorMensajeObjetoEnCarrito = 0
+
     let noAgregarObjeto = 0
     for(let x = 0; x < carrito.length ; x++){
         if(carrito[x].id == datosProducto.id){
             if(contadorMensajeObjetoEnCarrito == 0){
                 contadorMensajeObjetoEnCarrito = 1
-                $("#mensajeObjetoEnCarrito").fadeIn(1500,function(){
+                $("#mensajeObjetoEnCarrito").fadeIn(1500)
+                $("#mensajeObjetoEnCarrito").fadeOut(1500,function(){
                     contadorMensajeObjetoEnCarrito = 0
                 })
-                $("#mensajeObjetoEnCarrito").fadeOut(1500)
             }
             noAgregarObjeto = 1
         }
@@ -165,10 +161,7 @@ function guardarLocalStorage(){
 }
 
 // Se crea el carrito
-
-const contenedorCarrito = document.querySelector("#carrito") //Div donde voy a agregar los productos
-const mostrarCarrito = document.querySelector("#mostrar-carrito") //Boton para mostrar el carrito
-
+// Recibo evento de click si 
 if(mostrarCarrito){
     mostrarCarrito.addEventListener("click",muestroCarrito)
 }

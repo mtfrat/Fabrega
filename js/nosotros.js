@@ -1,9 +1,7 @@
-//-------------------------Secccion de nosotros------------------------------------------
-
-//Creo array para guardar las opiniones de los clientes
-let opinionesArray = []
+// Variables
+let opinionesArray = [] //Creo array para guardar las opiniones de los clientes
 let form = document.getElementById('formularioNosotros')
-let verificadorNosotros = 0
+let verificadorNosotros = 0 //Uso verificador para mostrar datos solo una vez
 
 
 $(() => {
